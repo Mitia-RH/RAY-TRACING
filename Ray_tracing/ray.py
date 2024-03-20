@@ -3,42 +3,33 @@ from csv import DictReader
 from sys import argv, exit
 import corrige_ray
 
-## Question 0
 
 NOM = "RANAIVO-HARISOA"
 PRENOM = "Mitia"
 EMAIL = "mitia.ranaivo-harisoa@u-psud.fr"
 
 # Opérations sur les vecteurs
-# section 4.1 de l'énoncé)
 # Un vecteur est simplement représenté par un couple (x, y, z)
-
-## Question 1
 
 def add(v1, v2):
   """Addition de deux vecteurs"""
   return (v1[0]+v2[0], v1[1]+v2[1], v1[2]+v2[2])
-  #return corrige_ray.sub(v1, v2)
 
 def sub(v1, v2):
   """Différence entre deux vecteurs"""
   return (v1[0]-v2[0], v1[1]-v2[1], v1[2]-v2[2])
-  #return corrige_ray.sub(v1, v2)
 
 def mul(k, v):
   """Multiplication d'un vecteurs par une constante"""
   return (k*v[0], k*v[1], k*v[2])
-  #return corrige_ray.mul(k, v)
 
 def dot(v1, v2):
   """Produit scalaire de deux vecteurs"""
   return float((v1[0]*v2[0] + v1[1]*v2[1] + v1[2]*v2[2]))
-  #return corrige_ray.dot(v1, v2)
 
 def norm(v):
   """Norme d'un vecteur """
   return float(sqrt(v[0]**2 + v[1]**2 + v[2]**2))
-  #return corrige_ray.norm(v)
 
 def normalize(v):
   #note: nmz = normalize
@@ -48,9 +39,6 @@ def normalize(v):
     return nmz
   except:
     raise ZeroDivisionError("La norme du vecteur est 0, impossible de le normaliser")
-  #return corrige_ray.normalize(v)
-
-## Question 2
 
 def test_add():
   """Fonction de test pour add"""
@@ -103,19 +91,15 @@ test_normalize()
 
 
 ### Opérations sur les images
-### (section 4.2 de l'énoncé)
 ### Une image est représentée par un triplet (i, w, h) où :
 ### - i est un bytearray de taille w * h * 3
 ### - w est la largeur de l'image (en pixels)
 ### - h est la hauteur de l'image (en pixels)
 
-## Question 3
 def init_image(w, h):
   """Initialise une image de w pixels de large et h pixel de haut"""
   return (bytearray(w*h*3), w, h)
-  #return corrige_ray.init_image(w, h)
 
-## Question 4
 def set_pixel(img, x, y, c):
   """Met le pixel au coordonnées (x, y) à la couleur c. C'est un est
   triplet (r, v, b) de valeurs. Les valeurs supérieures à 1 (resp. inférieures à
@@ -129,9 +113,7 @@ def set_pixel(img, x, y, c):
       img[0][(img[1]*(y)+x)*3+i] = 255
     else:
       img[0][(img[1]*(y)+x)*3+i] = int(px * 255)
-  #return corrige_ray.set_pixel(img, x, y, c)
 
-### Fonction donnée, ne pas modifier
 def save_image(chemin, img):
   """Écrit l'image img dans le fichier dont le chemin est donné. Si
   le fichier existe, il est supprimé. L'image est stockée au format PPM"""
@@ -144,7 +126,6 @@ def save_image(chemin, img):
     f.write(b'\n255\n')
     f.write(buff)
 
-## Question 5
 def test_img():
   """Test des fonctions set_pixel et init_image"""
   save_image('black100.ppm', init_image(100,100))
@@ -158,24 +139,16 @@ def test_img():
   #affiche un carré de couleur blanc sur fond noire et de dimension: 200 x 200 px
   #note: la taille de la fenetre est 600x400 px et le carré se situe a peu prêt au centre de la fenêtre
 
-### Attention, si vous faites une génération d'image un peu coûteuse, vous pouvez
-### commenter l'appel ci-dessous après avoir testé
-
-
 
 test_img()
 
 ### Fonctions de ray tracing
-### Section 5 de l'énoncé
 
-## Question 6
 def pixel_to_point(w, h, xmin, xmax, ymin, ymax, px, py):
   """Convertit un pixel (px, py) en un point du plan."""
   return (((xmax-xmin)*px)/w + xmin, ((ymax-ymin)*py)/h +ymin)
-  #return corrige_ray.pixel_to_point(w, h, xmin, xmax, ymin, ymax, px, py)
 
 
-## Question 7
 def sphere_intersect (c, r, v, d):
   """Calcule l'intersection entre une sphere de centre c (vecteur) et de rayon r
      (flottant) et une droite passant par v (vecteur) et de direction d (vecteur)
@@ -194,11 +167,9 @@ def sphere_intersect (c, r, v, d):
       return k2
     else:
       return None
-      #return corrige_ray.sphere_intersect(c, r, v ,d)
-
+ 
 INF = float('inf')
 
-## Question 8
 def nearset_intersection(objs, o, d):
   """Renvoie la sphère la plus proche qui intersecte la droite partant de o dans
   la direction d, ainsi que la distance d'intersection depuis o. S'il n'y a pas
@@ -226,12 +197,9 @@ def nearset_intersection(objs, o, d):
         m = distances[i][1]
         indexMin = i
     return (objs[indexMin], m)
-    #return corrige_ray.nearset_intersection(objs, o, d)
   else:
     return (None, INF)
-    #return corrige_ray.nearset_intersection(objs, o, d)
 
-## Question 9
 def compute_color (obj, v, n, l):
   """calcule la couleur du point v se trouvant à la surface de l'objet obj.
   n est le vecteur normal au point d'intersection et l le vecteur unitaire dans
@@ -248,9 +216,7 @@ def compute_color (obj, v, n, l):
   v2 = mul(abs(dot(n, normalize(add(v, l)))**(alpha/4)), s)
   
   return add(v1, v2)
-  #return corrige_ray.compute_color(obj, v, n, l)
-
-## NE PAS MODIFIER LE CODE CI-DESSOUS
+  
 def trace(w, h, xmin, xmax, ymin, ymax, camera, light,objs):
 
   img = init_image(w, h)
