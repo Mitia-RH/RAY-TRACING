@@ -1,7 +1,6 @@
 from math import dist, sqrt
 from csv import DictReader
 from sys import argv, exit
-import corrige_ray
 
 
 NOM = "RANAIVO-HARISOA"
